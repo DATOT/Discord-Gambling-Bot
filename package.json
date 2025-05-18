@@ -1,0 +1,17 @@
+{
+  "name": "gamblingbot",
+  "version": "1.0.0",
+  "description": "LETS GO GAMBLING",
+  "license": "ISC",
+  "author": "Tabby",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
+    "dotnet": "^1.1.4"
+  }
+}
