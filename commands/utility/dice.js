@@ -56,7 +56,14 @@ module.exports = {
 			resultMessage += `💡 You didn't place a bet. You still have **${currentCoins} coins**.`;
 		}
 
-		await interaction.deferReply();
-		await interaction.editReply(resultMessage);
+		try {
+			await interaction.deferReply();
+			await interaction.editReply(resultMessage);
+		} catch(error) {
+			console.log(error);
+			if (!interaction.replied) {
+			  await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+			}
+		};
 	}
 };

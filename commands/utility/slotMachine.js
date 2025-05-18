@@ -65,7 +65,14 @@ module.exports = {
 
 		message += `\n\nYou now have **${currentCoins}** 🪙 coins :3`;
 
-		await interaction.deferReply();
-		await interaction.editReply(message);
+		try {
+			await interaction.deferReply();
+			await interaction.editReply(message);
+		} catch(error) {
+			console.log(error);
+			if (!interaction.replied) {
+			  await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+			}
+		}
 	},
 };
