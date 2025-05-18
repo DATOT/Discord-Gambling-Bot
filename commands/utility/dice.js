@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const userCoins = require('../../items/coins'); // Adjust the path if needed!
+const userCoins = require('../../items/coins'); // Make sure the path is correct nya~ :3
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
 		)
 		.addIntegerOption(option =>
 			option.setName('bet_on_number')
-				.setDescription('Number to bet on (1-6)')
+				.setDescription('Number to bet on (1–6)')
 				.setMinValue(1)
 				.setMaxValue(6)
 		),
@@ -22,48 +22,53 @@ module.exports = {
 		const bet = interaction.options.getInteger('bet') ?? 0;
 		const betOn = interaction.options.getInteger('bet_on_number');
 
-		if (!userCoins.has(userId)) {
-			await interaction.reply('You didnt start gambling yet.\nUse /startgambling to start gambling.')
+		// Check if user exists in wallet
+		if (!userCoins.exists(userId)) {
+			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
 		}
 
-		const currentCoins = userCoins.get(userId);
+		const currentCoins = userCoins.getCoins(userId);
 
+		// Check coin balance
 		if (bet > currentCoins) {
-			await interaction.reply(`❌ You only have ${currentCoins} coins!`);
+			await interaction.reply(`❌ You only have **${currentCoins} coins**! You can’t bet that much :3`);
 			return;
 		}
 
+		// Must choose a number if betting
 		if (bet > 0 && betOn === null) {
-			await interaction.reply('❗ You must pick a number to bet on (1–6)!');
+			await interaction.reply('❗ You must pick a number to bet on (1–6) nya~!');
 			return;
 		}
 
 		const diceRoll = Math.floor(Math.random() * 6) + 1;
-		resultMessage = `# 🎲 ROLL A DICE 🎲\n\n`;
+		let resultMessage = `# 🎲 ROLL A DICE 🎲\n\n`;
 		resultMessage += `🎲 You rolled a **${diceRoll}**!\n`;
 
 		if (bet > 0) {
 			if (diceRoll === betOn) {
 				const winnings = bet * 3;
-				userCoins.set(userId, currentCoins + winnings);
-				resultMessage += `💰 You won **${winnings} coins**! You now have **${userCoins.get(userId)} coins**.`;
+				userCoins.addCoins(userId, winnings);
+				const updatedCoins = userCoins.getCoins(userId);
+				resultMessage += `💰 You won **${winnings} coins**! You now have **${updatedCoins} coins**~! :3`;
 			} else {
-				userCoins.set(userId, currentCoins - bet);
-				resultMessage += `😢 You lost **${bet} coins**... You now have **${userCoins.get(userId)} coins**.`;
+				userCoins.setCoins(userId, currentCoins - bet);
+				const updatedCoins = userCoins.getCoins(userId);
+				resultMessage += `😢 You lost **${bet} coins**... You now have **${updatedCoins} coins**~ :c`;
 			}
 		} else {
-			resultMessage += `💡 You didn't place a bet. You still have **${currentCoins} coins**.`;
+			resultMessage += `💡 You didn’t place a bet. You still have **${currentCoins} coins**~ :3`;
 		}
 
 		try {
 			await interaction.deferReply();
 			await interaction.editReply(resultMessage);
-		} catch(error) {
-			console.log(error);
+		} catch (error) {
+			console.error(error);
 			if (!interaction.replied) {
-			  await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+				await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
 			}
-		};
+		}
 	}
 };
