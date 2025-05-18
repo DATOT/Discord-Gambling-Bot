@@ -12,5 +12,15 @@
   "dependencies": {
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DATOT/Discord-Gambling-Bot.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/DATOT/Discord-Gambling-Bot/issues"
+  },
+  "homepage": "https://github.com/DATOT/Discord-Gambling-Bot#readme"
 }
