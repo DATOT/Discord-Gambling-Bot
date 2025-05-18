@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js');
 const userCoins = require('../../items/coins'); // Adjust the path if needed!
 
-const price = 15;
-const moneyFor2 = 18;
-const moneyForJackpot = 60;
-const moneyForLoseHard = 15;
+const price = 10;
+const moneyFor2 = 30;
+const moneyForJackpot = 70;
+const moneyForLoseHard = 20;
 
 module.exports = {
 	data: new SlashCommandBuilder()
