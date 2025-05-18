@@ -16,6 +16,7 @@ module.exports = {
 			message += '🎁 You got **100 coins** to start gambling!';
 		}
 
-		await interaction.reply(message);
+		await interaction.deferReply();
+		await interaction.editReply(message);
 	}
 };

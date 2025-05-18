@@ -17,6 +17,7 @@ module.exports = {
 			message += `💰 You have **${userCoins.get(userId)} coins**.`;
 		}
 
-		await interaction.reply(message);
+		await interaction.deferReply();
+		await interaction.editReply(message);
 	}
 };

@@ -65,6 +65,7 @@ module.exports = {
 
 		message += `\n\nYou now have **${currentCoins}** 🪙 coins :3`;
 
-		await interaction.reply(message);
+		await interaction.deferReply();
+		await interaction.editReply(message);
 	},
 };

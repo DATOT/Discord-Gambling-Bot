@@ -56,6 +56,7 @@ module.exports = {
 			resultMessage += `💡 You didn't place a bet. You still have **${currentCoins} coins**.`;
 		}
 
-		await interaction.reply(resultMessage);
+		await interaction.deferReply();
+		await interaction.editReply(resultMessage);
 	}
 };
