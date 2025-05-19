@@ -19,12 +19,12 @@ module.exports = {
 			'💰', '🎲', '💀', '✨',
 		];
 
-		if (!userCoins.has(userId)) {
+		if (!userCoins.exists(userId)) {
 			await interaction.reply('You didnt start gambling yet.\nUse /startgambling to start gambling.')
 			return;
 		}		
 
-		let currentCoins = userCoins.get(userId);
+		let currentCoins = userCoins.getCoins(userId);
 
 		if (currentCoins < price) {
 			await interaction.reply(`You need at least ${price} coins to play! You currently have ${currentCoins} 🪙 :3`);
@@ -61,7 +61,7 @@ module.exports = {
 		}
 
 		// Update user coins and reply
-		userCoins.set(userId, currentCoins);
+		userCoins.setCoins(userId, currentCoins);
 
 		message += `\n\nYou now have **${currentCoins}** 🪙 coins :3`;
 

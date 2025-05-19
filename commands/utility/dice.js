@@ -23,7 +23,7 @@ module.exports = {
 		const betOn = interaction.options.getInteger('bet_on_number');
 
 		// Check if user exists in wallet
-		if (!userCoins.exists(userId)) {
+		if (!(userCoins.exists(userId) && userCoins[userId].startedGambling)) {
 			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
 		}

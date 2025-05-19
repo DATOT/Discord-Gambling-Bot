@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const userCoins = require('../../item/coins'); // make sure this path matches your folder layout~ :3
+const userCoins = require('../../items/coins'); // make sure this path matches your folder layout~ :3
 const userWorkData = new Map(); // still in-memory unless you wanna persist it too~ :3
 
 const WORK_REWARD = 20;

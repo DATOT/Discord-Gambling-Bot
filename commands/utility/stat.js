@@ -10,11 +10,11 @@ module.exports = {
 		const userId = interaction.user.id;
 		let message = '**STAT:**\n';
 
-		if (!userCoins.has(userId)) {
+		if (!userCoins.exists(userId)) {
 			message += 'You dont have money since you didnt start gambling\n'
 			message += 'You /startgambling to start gambling';
 		} else {
-			message += `💰 You have **${userCoins.get(userId)} coins**.`;
+			message += `💰 You have **${userCoins.getCoins(userId)} coins**.`;
 		}
 
 		try {
