@@ -1,4 +1,4 @@
-const { readData, writeData, existData } = require('userData');
+const { readData, writeData, existData } = require('./userData');
 
 // Check if user has coins
 function hasCoins(userId, data = null) { 
@@ -9,7 +9,7 @@ function hasCoins(userId, data = null) {
 // Ensure user has coins, *this function is ignored when exporting*
 function ensureCoins(userId, data = null) {
   const actualData = data ?? readData();
-  if (!hasCoins(userId, data) {
+  if (!hasCoins(userId, data)) {
     data[userId] = { ...(data[userId] || {}), coins: 0 };
   }
 }

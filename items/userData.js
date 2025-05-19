@@ -30,6 +30,7 @@ function existData(userId) {
   const data = readData();
   if (!data[userId]) {
     data[userId] = {};
+    writeData(data);
     return false;
   }
   return true;

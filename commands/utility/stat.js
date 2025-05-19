@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
-const userCoins = require('../../items/coins');
+const userCoins = require('../../items/coins')
+const userGamblingData = require('../../items/gamblingData');
 
 module.exports = {
 	data: new SlashCommandBuilder() 

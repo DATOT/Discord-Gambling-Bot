@@ -19,10 +19,10 @@ module.exports = {
 			'💰', '🎲', '💀', '✨',
 		];
 
-		if (!userCoins.exists(userId)) {
-			await interaction.reply('You didnt start gambling yet.\nUse /startgambling to start gambling.')
+		if (userGamblingData.hasStartedGambling(userId)) {
+			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
-		}		
+		}
 
 		let currentCoins = userCoins.getCoins(userId);
 

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
-const userCoins = require('../../items/coins'); // Make sure the path is correct nya~ :3
+const userCoins = require('../../items/coins');
+const userGamblingData = require('../../items/gamblingData');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,8 +23,7 @@ module.exports = {
 		const bet = interaction.options.getInteger('bet') ?? 0;
 		const betOn = interaction.options.getInteger('bet_on_number');
 
-		// Check if user exists in wallet
-		if (!(userCoins.exists(userId) && userCoins[userId].startedGambling)) {
+		if (userGamblingData.hasStartedGambling(userId)) {
 			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
 		}

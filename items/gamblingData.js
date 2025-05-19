@@ -1,4 +1,4 @@
-const { readData, writeData, existData } = require('userData');
+const { readData, writeData, existData } = require('./userData');
 
 function existGamblingInfo(userId, data = null) {
 	const actualData = data ?? readData();
