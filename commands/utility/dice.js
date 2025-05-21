@@ -24,9 +24,13 @@ module.exports = {
 		const betOn = interaction.options.getInteger('bet_on_number');
 
 		if (userGamblingData.hasStartedGambling(userId)) {
-			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
+			await interaction.reply('You didnt start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
 		}
+
+		if (!interaction.replied && !interaction.deferred) {
+    	  	await interaction.deferReply(); // Do this FIRST before any logic
+    	}	
 
 		const currentCoins = userCoins.getCoins(userId);
 
@@ -62,7 +66,6 @@ module.exports = {
 		}
 
 		try {
-			await interaction.deferReply();
 			await interaction.editReply(resultMessage);
 		} catch (error) {
 			console.error(error);

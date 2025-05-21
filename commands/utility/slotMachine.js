@@ -20,7 +20,7 @@ module.exports = {
 		];
 
 		if (userGamblingData.hasStartedGambling(userId)) {
-			await interaction.reply('You didn’t start gambling yet~\nUse `/startgambling` to start gambling :3');
+			await interaction.reply('You didnt start gambling yet~\nUse `/startgambling` to start gambling :3');
 			return;
 		}
 

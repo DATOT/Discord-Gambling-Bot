@@ -18,7 +18,7 @@ function ensureCoins(userId, data = null) {
 function getCoins(userId) {
   const data = readData();
   ensureCoins(userId, data);
-  return data[userId];
+  return data[userId].coins;
 }
 
 // Set coins (overwrites the amount)

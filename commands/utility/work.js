@@ -14,12 +14,6 @@ module.exports = {
 	async execute(interaction) {
 		const userId = interaction.user.id;
 
-		// Make sure user has a wallet
-		if (!userCoins.exists(userId)) {
-			await interaction.reply('You need to start gambling first using `/startgambling` :3');
-			return;
-		}
-
 		// Get or initialize work data
 		let workInfo = userWorkData.get(userId);
 		const now = Date.now();
@@ -39,7 +33,7 @@ module.exports = {
 
 		// If limit reached
 		if (workInfo.count >= WORK_LIMIT) {
-			await interaction.reply('You’ve already worked **2 times today**~ 😿 Come back tomorrow! :3');
+			await interaction.reply('Youve already worked **2 times today**~ 😿 Come back tomorrow! :3');
 			return;
 		}
 

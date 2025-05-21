@@ -10,8 +10,12 @@ module.exports = {
 	async execute(interaction) {
 		const userId = interaction.user.id;
 		let message = '**STAT:**\n';
+    	// Only defer the reply if it hasn't already been done
+    	if (!interaction.replied && !interaction.deferred) {
+    	  	await interaction.deferReply(); // Do this FIRST before any logic
+    	}
 
-		if (!userCoins.exists(userId)) {
+		if (!userCoins.hasCoins(userId)) {
 			message += 'You dont have money since you didnt start gambling\n'
 			message += 'You /startgambling to start gambling';
 		} else {
@@ -19,7 +23,6 @@ module.exports = {
 		}
 
 		try {
-			await interaction.deferReply();
 			await interaction.editReply(message);
 		} catch(error) {
 			console.log(error);
