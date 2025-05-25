@@ -54,7 +54,7 @@ module.exports = {
 		} catch (error) {
 			console.error(error);
 			if (!interaction.replied) {
-				await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+				await interaction.reply({ content: 'Something went wrong~ 😿',  flags: MessageFlags.Ephemeral });
 			}
 		}
 	}
