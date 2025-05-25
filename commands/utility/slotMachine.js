@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
+
 const userCoins = require('../../items/coins'); // Adjust the path if needed!
+const userGamblingData = require('../../items/gamblingData');
 
 const price = 10;
 const moneyFor2 = 30;
@@ -19,15 +21,20 @@ module.exports = {
 			'💰', '🎲', '💀', '✨',
 		];
 
-		if (userGamblingData.hasStartedGambling(userId)) {
-			await interaction.reply('You didnt start gambling yet~\nUse `/startgambling` to start gambling :3');
+		if (!interaction.replied && !interaction.deferred) {
+      await interaction.deferReply(); // Do this FIRST before any logic
+    }
+
+    if (!userGamblingData.hasStartedGambling(userId)) {
+			await interaction.editReply('You didnt start gambling yet use `/startgambling` to start gambling');
 			return;
 		}
+
 
 		let currentCoins = userCoins.getCoins(userId);
 
 		if (currentCoins < price) {
-			await interaction.reply(`You need at least ${price} coins to play! You currently have ${currentCoins} 🪙 :3`);
+			await interaction.editReply(`You need at least ${price} coins to play! You currently have ${currentCoins} 🪙 :3`);
 			return;
 		}
 
@@ -66,7 +73,6 @@ module.exports = {
 		message += `\n\nYou now have **${currentCoins}** 🪙 coins :3`;
 
 		try {
-			await interaction.deferReply();
 			await interaction.editReply(message);
 		} catch(error) {
 			console.log(error);

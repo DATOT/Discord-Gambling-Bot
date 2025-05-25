@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const userCoins = require('../../items/coins'); // make sure this path matches your folder layout~ :3
-const userWorkData = new Map(); // still in-memory unless you wanna persist it too~ :3
+const userWorkData = require('../../items/workData'); // the userWorkData is here:3
 
 const WORK_REWARD = 20;
 const WORK_LIMIT = 2;
@@ -14,36 +14,48 @@ module.exports = {
 	async execute(interaction) {
 		const userId = interaction.user.id;
 
-		// Get or initialize work data
-		let workInfo = userWorkData.get(userId);
-		const now = Date.now();
+		// Only defer the reply if it hasn't already been done
+    if (!interaction.replied && !interaction.deferred) {
+      await interaction.deferReply(); // Do this FIRST before any logic
+    }
 
-		if (!workInfo) {
-			workInfo = {
-				count: 0,
-				lastReset: now
-			};
-		}
+		// Get or initialize work data
+		const now = Date.now();	
+		const last = userWorkData.lastReset(userId);
+		let count = userWorkData.count(userId);
 
 		// Reset daily work limit if 12h passed
-		if (now - workInfo.lastReset > DAY_MS) {
-			workInfo.count = 0;
-			workInfo.lastReset = now;
+		if (now - last > DAY_MS) {
+			userWorkData.resetWorkData(userId);
+			count = 0;
 		}
 
 		// If limit reached
-		if (workInfo.count >= WORK_LIMIT) {
-			await interaction.reply('Youve already worked **2 times today**~ 😿 Come back tomorrow! :3');
+		if (count >= WORK_LIMIT) {    		
+			try {
+				await interaction.editReply('Youve already worked **2 times today**~ 😿 Come back tomorrow! :3');
+			} catch (error) {
+				console.error(error);
+				if (!interaction.replied) {
+					await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+				}
+			}
 			return;
 		}
+		userWorkData.increaseCount(userId);
 
 		// Reward the user
 		userCoins.addCoins(userId, WORK_REWARD);
-		workInfo.count++;
-		userWorkData.set(userId, workInfo);
 
 		const updatedCoins = userCoins.getCoins(userId);
 
-		await interaction.reply(`💼 You worked hard and earned **${WORK_REWARD} coins**! You now have **${updatedCoins}** 🪙 coins :3`);
+		try {
+			await interaction.editReply(`💼 You worked hard and earned **${WORK_REWARD} coins**! You now have **${updatedCoins}** 🪙 coins :3`);
+		} catch (error) {
+			console.error(error);
+			if (!interaction.replied) {
+				await interaction.reply({ content: 'Something went wrong~ 😿', ephemeral: true });
+			}
+		}
 	}
 };

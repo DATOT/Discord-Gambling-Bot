@@ -16,11 +16,10 @@ module.exports = {
     	}
 
 		if (!userCoins.hasCoins(userId)) {
-			message += 'You dont have money since you didnt start gambling\n'
-			message += 'You /startgambling to start gambling';
-		} else {
-			message += `💰 You have **${userCoins.getCoins(userId)} coins**.`;
+			message += '**New user!!!** Set coins to **0** automatically\n';
+			userCoins.setCoins(userId, 0);
 		}
+		message += `💰 You have **${userCoins.getCoins(userId)} coins**.`;
 
 		try {
 			await interaction.editReply(message);

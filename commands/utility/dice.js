@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
+
 const userCoins = require('../../items/coins');
 const userGamblingData = require('../../items/gamblingData');
 
@@ -23,26 +24,26 @@ module.exports = {
 		const bet = interaction.options.getInteger('bet') ?? 0;
 		const betOn = interaction.options.getInteger('bet_on_number');
 
-		if (userGamblingData.hasStartedGambling(userId)) {
-			await interaction.reply('You didnt start gambling yet~\nUse `/startgambling` to start gambling :3');
-			return;
-		}
-
 		if (!interaction.replied && !interaction.deferred) {
     	  	await interaction.deferReply(); // Do this FIRST before any logic
-    	}	
+    	}
+
+    	if (!userGamblingData.hasStartedGambling(userId)) {
+			await interaction.editReply('You didnt start gambling yet use `/startgambling` to start gambling');
+			return;
+		}
 
 		const currentCoins = userCoins.getCoins(userId);
 
 		// Check coin balance
 		if (bet > currentCoins) {
-			await interaction.reply(`❌ You only have **${currentCoins} coins**! You can’t bet that much :3`);
+			await interaction.editReply(`❌ You only have **${currentCoins} coins**! You can’t bet that much :3`);
 			return;
 		}
 
 		// Must choose a number if betting
 		if (bet > 0 && betOn === null) {
-			await interaction.reply('❗ You must pick a number to bet on (1–6) nya~!');
+			await interaction.editReply('❗ You must pick a number to bet on (1–6) nya~!');
 			return;
 		}
 

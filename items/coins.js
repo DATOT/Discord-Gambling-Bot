@@ -9,6 +9,11 @@ function hasCoins(userId, data = null) {
 // Ensure user has coins, *this function is ignored when exporting*
 function ensureCoins(userId, data = null) {
   const actualData = data ?? readData();
+  
+  if (!actualData[userId]) {
+    actualData[userId] = {};
+  }
+
   if (!hasCoins(userId, data)) {
     data[userId] = { ...(data[userId] || {}), coins: 0 };
   }
